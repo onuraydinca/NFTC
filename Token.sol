@@ -589,6 +589,9 @@ contract NFTCToken is ERC20, Ownable {
         _inSwap = false;
     }
 
+    /**
+        They will work when the contract is deployed.
+     */
     constructor() ERC20("NFTC Token", "NFTC") {
         _isExcludedFromFee[address(0xdead)] = true;
         _isExcludedFromFee[address(this)] = true;
@@ -611,36 +614,61 @@ contract NFTCToken is ERC20, Ownable {
         lockAddresses[0xb66e12DB6e9d36705Fbc434f0D85e8315394F9b5] = block.timestamp + 2191 days;
     }
 
+    /**
+        Adding nft address to contract
+     */
     function addNFT(address nftaddress, address owneraccount) external {
         require(permissionNFTAddresses[msg.sender]);
         NFTS[nftaddress] = owneraccount;
     }
 
+    /**
+        Query the presence of NFT in the contract.
+     */
     function getNFT(address nftaddress) external view returns(address){
         return NFTS[nftaddress];
     }
 
+
+    /**
+        Returns the unlock timestamp of the locked addresses in the Construct method.   
+     */
     function getLockedAddress(address lockaddress) external view returns(uint256){
         return lockAddresses[lockaddress];
     }
 
+    /**
+        Authorizes adding NFT to Contract.
+     */
     function addNftPermission(address permissionaddress) external onlyOwner {
         permissionNFTAddresses[permissionaddress] = true;
     }
 
+    /**
+        Method to change fee charges
+     */
     function setFees(uint256 _buyFee, uint256 _sellFee) external onlyOwner {
         buyFee = _buyFee;
         sellFee = _sellFee;
     }
 
+    /**
+        The address where the fee fees will go
+     */
     function setSupportAddress(address account) external onlyOwner {
         supportAddress = account;
     }
 
+    /**
+        Specify the addresses where no fee will be charged as true false
+     */
     function setAccountFeeStatus(address account, bool isExcluded) external onlyOwner {
         _isExcludedFromFee[account] = isExcluded;
     }
 
+    /**
+        Returns true false for addresses that will not be charged fees.
+     */
     function isExcludedFromFee(address account) external view returns(bool) {
         return _isExcludedFromFee[account];
     }
