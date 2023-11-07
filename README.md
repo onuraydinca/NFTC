@@ -2,5 +2,4 @@
 
 NFTC Project
 
-www.nftcombining.com
-www.nftcmarket.com
+www.nftcombining.com and www.nftcmarket.com
